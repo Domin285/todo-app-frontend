@@ -1,0 +1,11 @@
+<div class="toast-wrapper">
+    <div
+        class="toast"
+        *ngFor="let t of toastService.toasts()"
+        [class.success]="t.type === 'success'"
+        [class.error]="t.type === 'error'"
+    >
+    <span>{{ t.message }}</span>
+    <button class="close" (click)="toastService.remove(t.id)">X</button>
+    </div>
+</div>

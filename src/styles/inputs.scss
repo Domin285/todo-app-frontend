@@ -1,0 +1,36 @@
+.custom-input,
+.custom-textarea {
+  width: 95%;
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+
+  background: #020617;
+  border: 1px solid rgba(55, 65, 81, 0.9);
+
+  color: var(--text);
+  font-size: 1rem;
+
+  outline: none;
+  transition: 0.2s ease;
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:hover {
+    border-color: rgba(148, 163, 184, 0.6);
+  }
+
+  &:focus {
+    border-color: var(--primary);
+    box-shadow:
+      0 0 0 2px rgba(59,130,246,0.35),
+      0 0 18px rgba(59,130,246,0.6);
+  }
+}
+
+.custom-textarea {
+  min-height: 90px;
+  resize: none;
+  line-height: 1.45rem;
+}

@@ -1,0 +1,101 @@
+<div class="panel">
+
+  <div *ngIf="todoService.loading()" class="loading-row">
+    <span class="spinner"></span>
+    Ładowanie danych...
+  </div>
+
+  <div class="top-row">
+    <input
+      class="search"
+      placeholder="Szukaj..."
+      (input)="filter.set($any($event.target).value)"
+    />
+
+    <div class="top-right">
+      <select (change)="statusFilter.set($any($event.target).value)">
+        <option value="">Wszystkie</option>
+        <option value="done">Wykonane</option>
+        <option value="pending">Niewykonane</option>
+      </select>
+
+      <select (change)="sortOrder.set($any($event.target).value)">
+        <option value="">Domyślne (ID)</option>
+        <option value="asc">A → Z</option>
+        <option value="desc">Z → A</option>
+      </select>
+
+      <button class="add-btn" (click)="startCreating()">+</button>
+    </div>
+  </div>
+
+  <div class="table-header">
+    <div>ID</div>
+    <div>Tytuł</div>
+    <div>Opis</div>
+    <div>Status</div>
+    <div></div>
+  </div>
+
+  <div
+    *ngFor="let t of filtered()"
+    class="table-row"
+    [class.editing]="editing() === t"
+    [class.done-row]="t.isDone"
+  >
+
+    <ng-container *ngIf="editing() === t; else viewMode">
+      <div>{{ t.id }}</div>
+
+      <div><input class="custom-input" [(ngModel)]="editTitle" maxlength="30" /></div>
+      <div><input class="custom-input" [(ngModel)]="editDesc" maxlength="100"/></div>
+
+      <div>
+        <input type="checkbox" [(ngModel)]="editDone" />
+      </div>
+
+      <div class="actions">
+        <button class="save" (click)="saveEdit(t.id)">Zapisz</button>
+        <button class="cancel" (click)="cancelEdit()">Anuluj</button>
+      </div>
+    </ng-container>
+
+    <ng-template #viewMode>
+      <div>{{ t.id }}</div>
+      <div>{{ t.title }}</div>
+    <div>{{ t.description?.trim() ? t.description : '---' }}</div>
+
+      <div
+        class="status-text"
+        [class.done]="t.isDone"
+        [class.pending]="!t.isDone"
+      >
+        {{ t.isDone ? 'Wykonane' : 'Niewykonane' }}
+      </div>
+
+      <div class="actions">
+        <button class="edit" (click)="startEdit(t)">Edytuj</button>
+      </div>
+    </ng-template>
+
+  </div>
+
+  <div *ngIf="creating()" class="table-row editing">
+    <div>—</div>
+
+    <div><input class="custom-input" [(ngModel)]="newTitle" maxlength="30" placeholder="Tytuł..." /></div>
+    <div><input class="custom-input" [(ngModel)]="newDesc" maxlength="100" placeholder="Opis..." /></div>
+
+    <div><input type="checkbox" [(ngModel)]="newDone" /></div>
+
+    <div class="actions">
+      <button class="save" (click)="createTask()">Dodaj</button>
+      <button class="cancel" (click)="cancelCreating()">Anuluj</button>
+    </div>
+  </div>
+
+  <div *ngIf="!todoService.loading() && filtered().length === 0" class="empty-row">
+    Brak zadań do wyświetlenia.
+  </div>
+
+</div>

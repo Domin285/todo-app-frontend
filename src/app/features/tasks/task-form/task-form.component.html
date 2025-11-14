@@ -1,0 +1,36 @@
+<form (ngSubmit)="submit()" class="form-container">
+
+  <input
+    class="custom-input"
+    type="text"
+    [(ngModel)]="title"
+    name="title"
+    placeholder="Tytuł zadania"
+    maxlength="30"
+    required
+  />
+
+  <textarea
+    class="custom-textarea"
+    [(ngModel)]="description"
+    name="description"
+    placeholder="Opis (opcjonalnie)"
+    maxlength="100">
+  </textarea>
+
+  <label>
+    <input type="checkbox" [(ngModel)]="isDone" name="isDone" />
+    Wykonane
+  </label>
+
+  <div class="actions">
+    <button type="submit" class="btn save">
+      {{ todo ? 'Zapisz' : 'Dodaj' }}
+    </button>
+
+    <button type="button" class="btn cancel" (click)="cancel.emit()">
+      Anuluj
+    </button>
+  </div>
+
+</form>
